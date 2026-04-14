@@ -15,5 +15,5 @@ $2y$10$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 Выполни этот SQL в phpMyAdmin:
 SQLUPDATE `admin` 
-SET `password_hash` = 'ТОТ_ХЕШ_КОТОРЫЙ_ТЫ_СКОПИРОВАЛ' 
+SET `password_hash` = '$2y$10$I9F6F398KM6Mz374E8JYDu8RCoU.4HBLWDn6dQQyFp5.3dmhe9z7G' 
 WHERE `login` = 'admin';
