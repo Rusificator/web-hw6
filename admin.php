@@ -21,7 +21,7 @@ function getDB() {
 
 $pdo = getDB();
 
-// === HTTP-АВТОРИЗАЦИЯ (1 балл) ===
+// === HTTP-АВТОРИЗАЦИЯ  ===
 if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
     header('WWW-Authenticate: Basic realm="Админ-панель Задание 6"');
     header('HTTP/1.0 401 Unauthorized');
@@ -32,7 +32,7 @@ if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
 $auth_login = $_SERVER['PHP_AUTH_USER'];
 $auth_pass  = $_SERVER['PHP_AUTH_PW'];
 
-// Проверка логина/хеша из отдельной таблицы admin (1 балл)
+// Проверка логина/хеша из отдельной таблицы admin 
 $stmt = $pdo->prepare("SELECT password_hash FROM admin WHERE login = ?");
 $stmt->execute([$auth_login]);
 $admin_row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -141,7 +141,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $applications[] = $row;
 }
 
-// === СТАТИСТИКА (1 балл) ===
+// === СТАТИСТИКА  ===
 $stats = [];
 $stmt = $pdo->query("
     SELECT l.name, COUNT(DISTINCT al.application_id) AS count
@@ -173,7 +173,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <?php endforeach; ?>
         <?php endif; ?>
 
-        <!-- РЕДАКТИРОВАНИЕ (2 балла) -->
+        <!-- РЕДАКТИРОВАНИЕ -->
         <?php if ($edit_id > 0 && !empty($edit_values)): ?>
             <h2 style="margin:30px 0 15px;">Редактирование анкеты №<?= $edit_id ?></h2>
             <form method="POST" style="background:#252525;padding:25px;border-radius:15px;">
@@ -231,7 +231,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             </form>
         <?php endif; ?>
 
-        <!-- ТАБЛИЦА ВСЕХ АНКЕТ (1 балл) -->
+        <!-- ТАБЛИЦА ВСЕХ АНКЕТ-->
         <h2>Все анкеты пользователей</h2>
         <table>
             <tr>
@@ -264,7 +264,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <?php endif; ?>
         </table>
 
-        <!-- СТАТИСТИКА (1 балл) -->
+        <!-- СТАТИСТИКА  -->
         <h2 style="margin-top:40px;">Статистика по языкам программирования</h2>
         <table>
             <tr>
