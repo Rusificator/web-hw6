@@ -1,6 +1,5 @@
 <?php
 header('Content-Type: text/html; charset=UTF-8');
-
 // === ПОДКЛЮЧЕНИЕ К БД (DRY — используем ту же функцию) ===
 function getDB() {
     static $pdo = null;
@@ -21,11 +20,11 @@ function getDB() {
 
 $pdo = getDB();
 
-// === HTTP-АВТОРИЗАЦИЯ  ===
+// === HTTP-АВТОРИЗАЦИЯ ===
 if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
     header('WWW-Authenticate: Basic realm="Админ-панель Задание 6"');
     header('HTTP/1.0 401 Unauthorized');
-    echo '<h1 style="text-align:center;color:#e67e22;margin-top:50px;">Доступ запрещён</h1>';
+    echo '<h1 style="text-align:center;color:#e67e22;margin-top:100px;">Доступ к админ-панели запрещён.<br>Введите логин и пароль администратора.</h1>';
     exit;
 }
 
@@ -40,9 +39,11 @@ $admin_row = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$admin_row || !password_verify($auth_pass, $admin_row['password_hash'])) {
     header('WWW-Authenticate: Basic realm="Админ-панель Задание 6"');
     header('HTTP/1.0 401 Unauthorized');
-    echo '<h1 style="text-align:center;color:#e67e22;margin-top:50px;">Неверный логин или пароль</h1>';
+    echo '<h1 style="text-align:center;color:#e67e22;margin-top:100px;">Неверный логин или пароль администратора!<br><small>Попробуйте ещё раз (admin / admin123)</small></h1>';
     exit;
 }
+
+
 
 // === ОБРАБОТКА ДЕЙСТВИЙ АДМИНА ===
 $messages = [];

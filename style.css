@@ -261,3 +261,16 @@ code {
 .subtitle{
      text-align: center;
 }
+
+
+table td:nth-child(8) {
+    white-space: nowrap;      
+    min-width: 160px;         
+    text-align: center;       
+    padding: 12px 8px;        
+}
+
+table td:nth-child(8) a {
+    font-size: 0.95rem;      
+    margin: 0 4px;
+}
