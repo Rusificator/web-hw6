@@ -1,0 +1,19 @@
+Как быстро исправить (2 минуты)
+
+Сгенерируй правильный хеш для пароля admin123
+
+Создай временный файл hash.php и вставь в него:
+PHP<?php
+echo password_hash('admin123', PASSWORD_DEFAULT);
+?>
+Загрузи его на сервер и открой в браузере (например https://твой-сайт.ru/hash.php).
+Ты увидишь длинную строку, например:
+$2y$10$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Скопируй её полностью.
+
+Обнови запись в таблице admin
+
+Выполни этот SQL в phpMyAdmin:
+SQLUPDATE `admin` 
+SET `password_hash` = 'ТОТ_ХЕШ_КОТОРЫЙ_ТЫ_СКОПИРОВАЛ' 
+WHERE `login` = 'admin';
