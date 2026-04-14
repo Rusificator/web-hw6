@@ -1,0 +1,14 @@
+хеш для пароля admin123
+ временный файл hash.php:
+PHP<?php
+echo password_hash('admin123', PASSWORD_DEFAULT);
+?>
+После загрузки на сервер  в браузере, видим строку типа:
+$2y$10$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Скопируем.
+
+обновляем запись в таблице admin в sql на сервере:
+
+UPDATE `admin` 
+SET `password_hash` = '$2y$10$I9F6F398KM6Mz374E8JYDu8RCoU.4HBLWDn6dQQyFp5.3dmhe9z7G' 
+WHERE `login` = 'admin';
