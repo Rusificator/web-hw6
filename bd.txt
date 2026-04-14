@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
     `password_hash` VARCHAR(255) NOT NULL
 );
 
--- Создаём администратора по умолчанию (логин: admin, пароль: admin123)
--- После первого входа обязательно поменяй пароль!
+-- Создаём администратора по умолчанию (логин: admin, пароль: admin123(сейчас заглушка))
+
 INSERT INTO `admin` (login, password_hash)
 VALUES ('admin', '$2y$10$8v9v4v8v7v6v5v4v3v2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h7g6f5e4d3c2b1a')
 ON DUPLICATE KEY UPDATE login=login;
