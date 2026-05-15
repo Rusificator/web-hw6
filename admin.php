@@ -1,6 +1,10 @@
 <?php
 header('Content-Type: text/html; charset=UTF-8');
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 // === ПОДКЛЮЧЕНИЕ К БД ===
 function getDB() {
     static $pdo = null;
@@ -13,7 +17,8 @@ function getDB() {
             $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            die("Ошибка подключения к БД: " . $e->getMessage());
+              error_log("Database error: " . $e->getMessage());
+            die("Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.");
         }
     }
     return $pdo;
@@ -97,6 +102,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
     $allowed_genders = ['male', 'female'];
 
     $has_error = false;
+
+
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die('Ошибка CSRF. Пожалуйста, обновите страницу и повторите попытку.');
+}
 
     // ФИО
     if (empty($full_name)) {
@@ -265,7 +275,7 @@ $all_languages = $pdo->query("SELECT name FROM language ORDER BY name")->fetchAl
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Админ-панель — Задание 6</title>
+    <title>Админ-панель — Задание 7</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .field-error { color: #e67e22; font-size: 0.85rem; margin-top: 4px; display: block; }
@@ -366,7 +376,7 @@ $all_languages = $pdo->query("SELECT name FROM language ORDER BY name")->fetchAl
                     <span class="field-error"><?= $edit_errors['contract_accepted'] ?></span>
                 <?php endif; ?>
             </div>
-
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
             <button type="submit">Сохранить изменения</button>
             <a href="admin.php" style="display:block;text-align:center;margin-top:15px;">Отмена</a>
         </form>
